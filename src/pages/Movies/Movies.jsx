@@ -1,25 +1,30 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, useLocation, NavLink} from "react-router-dom";
+import { useSearchParams} from "react-router-dom";
 import { fetchMovies } from "services/api";
 import { ToastContainer, toast } from 'react-toastify';
+import { MovieCard } from "components/MovieCard/MovieCard";
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from 'components/Loader/Loader';
 
 export default function Movies() {
     const [moviesFound, setMoviesFound] = useState([]);
     const [input, setInput] = useState('');
     const [searchQuery, setSearchQuery] = useSearchParams();
+    const [showLoader, setShowLoader] = useState(false);
     
     const query = searchQuery.get('search');
-    const location = useLocation();
-    
+        
    
     useEffect(() => {
         if (!query) {
             return;
         }
+        setShowLoader(true);
         fetchMovies(query).then(data => {
             setMoviesFound([...data.results])
         })
+            .catch(error => console.log(error))
+        .finally(setShowLoader(false))
         },[query])
 
     
@@ -47,18 +52,12 @@ export default function Movies() {
                 </label>
                 <button type="submit">Search</button>
             </form>
-
-            <ul>
-                {moviesFound.map(movie => (
-                    <li key={movie.id}>
-                        <NavLink to={`${movie.id}`} state={{ from: location }}>
-                            <p>{movie.title || movie.name}</p>
-                            
-                         </NavLink>
-                    </li>
-                ))}
-            </ul>
-             <ToastContainer />
+            
+            {showLoader && <Loader />}
+            
+            <MovieCard movie={moviesFound} />
+             
+            <ToastContainer />
         </>
     )
 }

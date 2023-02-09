@@ -5,7 +5,6 @@ import { fetchReviewsById } from "services/api";
 export default function Reviews() {
     const [reviews, setReviews] = useState([]);
     const params = useParams();
-    console.log(reviews)
     
     useEffect(() => {
         fetchReviewsById(params.id).then(data => {

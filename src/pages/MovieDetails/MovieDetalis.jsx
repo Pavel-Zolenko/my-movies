@@ -5,6 +5,7 @@ import { fetchMovieById } from "services/api";
 import imageplaceholder from "images/noposter.jpg";
 import { DetailsWrapp, DetailsWrappInfo } from "./MovieDetails.styled";
 import { BackLink } from "components/BackLink/BackLink";
+import Loader from 'components/Loader/Loader';
 
 
 export default function MovieDetails() {
@@ -19,10 +20,10 @@ export default function MovieDetails() {
     fetchMovieById(params.id).then(data => {
       setMovieItem(data)
     })
+      .catch(error => console.log(error));
   }, [params.id]);
     
   
-
   return (
     
     <div>
@@ -52,13 +53,13 @@ export default function MovieDetails() {
             <p>Additional information</p>
             <ul>
         <li>
-          <Link to="cast">Cast</Link>
+          <Link to="cast" state={{ from: backLinkHref }}>Cast</Link>
         </li>
         <li>
-          <Link to="Reviews">reviews</Link>
+          <Link to="Reviews" state={{ from: backLinkHref }}>Reviews</Link>
         </li>
             </ul>
-            <Suspense>
+            <Suspense fallback={<Loader />}>
               <Outlet />
             </Suspense>
       
