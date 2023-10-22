@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 import { Container } from '../../components/Container/Container.jsx';
-
 import { darkTheme } from '../../services/theme';
 
 const { colors } = darkTheme;
@@ -44,6 +43,4 @@ export const Item = styled.li`
     box-shadow: 0 0 8px rgba(200, 200, 200, 0.8);
     transform: scale(1.05);
   }
-
-  ${'' /* width: calc((100% - 6 * 16px) / 7); */}
 `;

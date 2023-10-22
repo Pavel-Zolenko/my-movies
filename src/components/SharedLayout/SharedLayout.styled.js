@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
+import { darkTheme } from '../../services/theme';
 
-export const Container = styled.div`
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0 16px;
+const { colors } = darkTheme;
+
+export const Layout = styled.div`
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  ${'' /* min-height: 100vh; */}
 `;
 
 export const Header = styled.header`
@@ -13,24 +17,21 @@ export const Header = styled.header`
   justify-content: space-between;
   gap: 12px;
   padding: 8px 0;
-  margin-bottom: 16px;
-  border-bottom: 1px solid black;
-
+  border-bottom: 1px solid grey;
+  background-color: ${colors.bcgHeader};
   > nav {
     display: flex;
   }
 `;
 
-
 export const Link = styled(NavLink)`
   padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
-  color: black;
+  color: white;
   font-weight: 500;
 
   &.active {
-    
     color: #df4d4d;
   }
 `;
