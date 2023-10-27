@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
-import { Button, TextField, IconButton } from '@mui/material';
+import { TextField, IconButton } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
 import { darkTheme } from '../../services/theme';
 import bcgMovies from 'images/bcg-movies.jpg';
