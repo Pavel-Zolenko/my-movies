@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
-import { TextField, IconButton } from '@mui/material';
+import { TextField, IconButton, createTheme } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
 import { darkTheme } from '../../services/theme';
 import bcgMovies from 'images/bcg-movies.jpg';
@@ -78,4 +78,12 @@ export const CustomTextField = styled(TextField)({
 
 export const CustomButton = styled(IconButton)({
   padding: 0,
+});
+
+export const SearchTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#fff',
+    },
+  },
 });
