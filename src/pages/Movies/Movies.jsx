@@ -77,7 +77,13 @@ export default function Movies() {
             endAdornment: (
               <InputAdornment position="end">
                 {input.length > 0 && (
-                  <AiOutlineClose color="white" size={24} onClick={clearAll} />
+                  <div style={{ cursor: 'pointer' }}>
+                    <AiOutlineClose
+                      color="white"
+                      size={24}
+                      onClick={clearAll}
+                    />
+                  </div>
                 )}
                 <CustomButton variant="contained" type="submit">
                   <IconButton
