@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
+import { Button, TextField, IconButton } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
-
 import { darkTheme } from '../../services/theme';
+import bcgMovies from 'images/bcg-movies.jpg';
 
 const { colors } = darkTheme;
 
@@ -10,11 +11,26 @@ export const StyledLink = styled(NavLink)`
   text-decoration: none;
 `;
 
+export const BcgMovies = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  background-image: radial-gradient(
+      at center,
+      rgba(59, 67, 81, 0.2),
+      ${colors.bcgMain} 70%
+    ),
+    url(${bcgMovies});
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+`;
+
 export const PageWrap = styled(Container)`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px;
+  height: 100%;
   background-color: ${colors.bcgMain};
 `;
 
@@ -44,6 +60,22 @@ export const Item = styled.li`
     box-shadow: 0 0 8px rgba(200, 200, 200, 0.8);
     transform: scale(1.05);
   }
-
-  ${'' /* width: calc((100% - 6 * 16px) / 7); */}
 `;
+
+export const CustomTextField = styled(TextField)({
+  '& .MuiInputBase-input': {
+    fontSize: 20,
+    height: 26,
+    color: 'white',
+  },
+  '& .MuiInputLabel-root': {
+    color: 'white',
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#121212',
+  },
+});
+
+export const CustomButton = styled(IconButton)({
+  padding: 0,
+});

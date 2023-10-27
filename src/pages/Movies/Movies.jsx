@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-
 import { ToastContainer, toast } from 'react-toastify';
 import { fetchMovies } from 'services/api';
-import { MovieCard } from 'components/MovieCard/MovieCard';
-import { PageWrap, List, Item, StyledLink } from './Movies.styled';
 import 'react-toastify/dist/ReactToastify.css';
+import { MovieCard } from 'components/MovieCard/MovieCard';
+import {
+  BcgMovies,
+  PageWrap,
+  List,
+  Item,
+  StyledLink,
+  CustomTextField,
+  CustomButton,
+} from './Movies.styled';
 import Loader from 'components/Loader/Loader';
+import IconButton from '@mui/material/IconButton';
+import { BsSearch } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai';
+
+import { InputAdornment } from '@mui/material';
 
 export default function Movies() {
   const [moviesFound, setMoviesFound] = useState([]);
@@ -35,6 +47,12 @@ export default function Movies() {
     setInput(event.target.value);
   };
 
+  const clearAll = () => {
+    setInput('');
+    setMoviesFound([]);
+    setSearchQuery({ search: '' });
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
     if (!input.trim()) {
@@ -47,29 +65,48 @@ export default function Movies() {
   };
 
   return (
-    <>
+    <PageWrap>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="">
-          <input type="text" name="search" onChange={onSearchInput} />
-        </label>
-        <button type="submit">Search</button>
+        <CustomTextField
+          id="standard-basic"
+          label="Search"
+          variant="filled"
+          value={input}
+          onChange={onSearchInput}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {input.length > 0 && (
+                  <AiOutlineClose color="white" size={24} onClick={clearAll} />
+                )}
+                <CustomButton variant="contained" type="submit">
+                  <IconButton
+                    type="button"
+                    sx={{ p: '10px 20px' }}
+                    aria-label="search"
+                  >
+                    <BsSearch color="white" />
+                  </IconButton>
+                </CustomButton>
+              </InputAdornment>
+            ),
+          }}
+        />
       </form>
 
       {showLoader && <Loader />}
+      {!moviesFound.length && <BcgMovies color="white" />}
 
-      <PageWrap>
-        <List>
-          {moviesFound.map(trend => (
-            <Item key={trend.id}>
-              <StyledLink to={`/movies/${trend.id}`} state={{ from: location }}>
-                <MovieCard movie={trend} />
-              </StyledLink>
-            </Item>
-          ))}
-        </List>
-      </PageWrap>
-
+      <List>
+        {moviesFound.map(trend => (
+          <Item key={trend.id}>
+            <StyledLink to={`/movies/${trend.id}`} state={{ from: location }}>
+              <MovieCard movie={trend} />
+            </StyledLink>
+          </Item>
+        ))}
+      </List>
       <ToastContainer />
-    </>
+    </PageWrap>
   );
 }
