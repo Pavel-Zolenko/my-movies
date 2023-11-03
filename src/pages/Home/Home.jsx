@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { fetchTrends } from 'services/api';
 import { MovieCard } from 'components/MovieCard/MovieCard';
 import { StyledLink, PageWrap, PageTitle, List, Item } from './Home.styled';
 
+import { Container, Pagination, PaginationItem, Stack } from '@mui/material';
+
 export default function Home() {
   const [trends, setTrends] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+
   const location = useLocation();
 
+  const query = new URLSearchParams(location.search);
+  const [page, setPage] = useState(parseInt(query.get('page') || '1', 10));
+
   useEffect(() => {
-    fetchTrends(1)
+    fetchTrends(page)
       .then(data => {
         setTrends(data.results);
+        setTotalPages(data.total_pages);
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [page]);
 
   return (
     <PageWrap>
       <PageTitle>Популярні сьогодні</PageTitle>
+
       <List>
         {trends.map(trend => (
           <Item key={trend.id}>
@@ -28,6 +37,28 @@ export default function Home() {
           </Item>
         ))}
       </List>
+
+      <Container maxWidth="md">
+        <Stack spacing={2} alignItems="center">
+          {!!page && (
+            <Pagination
+              size="large"
+              count={totalPages}
+              page={page}
+              onChange={(_, num) => setPage(num)}
+              showFirstButton
+              showLastButton
+              renderItem={item => (
+                <PaginationItem
+                  component={Link}
+                  to={`/?page=${item.page}`}
+                  {...item}
+                />
+              )}
+            />
+          )}
+        </Stack>
+      </Container>
     </PageWrap>
   );
 }

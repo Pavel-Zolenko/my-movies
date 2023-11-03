@@ -1,14 +1,5 @@
 import styled from '@emotion/styled/macro';
 
-export const MovieThumb = styled.div`
-  ${
-    '' /* border-radius: 5px;
-  overflow: hidden;
-  width: 200px;
-  height: 300px; */
-  }
-`;
-
 export const MovieImg = styled.img``;
 
 export const MovieInfo = styled.div`

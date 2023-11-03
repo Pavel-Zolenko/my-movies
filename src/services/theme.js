@@ -9,6 +9,7 @@ export const darkTheme = {
     textSecondary: '#212121',
     textTitle: '#fff',
     accent: '#ff0000',
+    red: '#df4d4d',
   },
   space: [0, 2, 4, 8, 16, 32, 64, 128, 256],
   fontSizes: {
