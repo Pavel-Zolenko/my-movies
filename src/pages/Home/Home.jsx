@@ -2,9 +2,22 @@ import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { fetchTrends } from 'services/api';
 import { MovieCard } from 'components/MovieCard/MovieCard';
-import { StyledLink, PageWrap, PageTitle, List, Item } from './Home.styled';
+import {
+  StyledLink,
+  PageWrap,
+  PageTitle,
+  List,
+  Item,
+  PaginationTheme,
+} from './Home.styled';
 
-import { Container, Pagination, PaginationItem, Stack } from '@mui/material';
+import {
+  Container,
+  Pagination,
+  PaginationItem,
+  Stack,
+  ThemeProvider,
+} from '@mui/material';
 
 export default function Home() {
   const [trends, setTrends] = useState([]);
@@ -41,21 +54,25 @@ export default function Home() {
       <Container maxWidth="md">
         <Stack spacing={2} alignItems="center">
           {!!page && (
-            <Pagination
-              size="large"
-              count={totalPages}
-              page={page}
-              onChange={(_, num) => setPage(num)}
-              showFirstButton
-              showLastButton
-              renderItem={item => (
-                <PaginationItem
-                  component={Link}
-                  to={`/?page=${item.page}`}
-                  {...item}
-                />
-              )}
-            />
+            <ThemeProvider theme={PaginationTheme}>
+              <Pagination
+                color="primary"
+                shape="rounded"
+                size="large"
+                count={totalPages}
+                page={page}
+                onChange={(_, num) => setPage(num)}
+                showFirstButton
+                showLastButton
+                renderItem={item => (
+                  <PaginationItem
+                    component={Link}
+                    to={`/?page=${item.page}`}
+                    {...item}
+                  />
+                )}
+              />
+            </ThemeProvider>
           )}
         </Stack>
       </Container>

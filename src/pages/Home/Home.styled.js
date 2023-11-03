@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
+import { createTheme } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
 import { darkTheme } from '../../services/theme';
 
@@ -44,3 +45,11 @@ export const Item = styled.li`
     transform: scale(1.05);
   }
 `;
+
+export const PaginationTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#df4d4d',
+    },
+  },
+});
