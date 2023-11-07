@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import {
+  Container,
+  Pagination,
+  PaginationItem,
+  Stack,
+  ThemeProvider,
+} from '@mui/material';
 import { fetchTrends } from 'services/api';
 import { MovieCard } from 'components/MovieCard/MovieCard';
 import {
@@ -11,14 +19,6 @@ import {
   PaginationTheme,
 } from './Home.styled';
 
-import {
-  Container,
-  Pagination,
-  PaginationItem,
-  Stack,
-  ThemeProvider,
-} from '@mui/material';
-
 export default function Home() {
   const [trends, setTrends] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -28,18 +28,21 @@ export default function Home() {
   const query = new URLSearchParams(location.search);
   const [page, setPage] = useState(parseInt(query.get('page') || '1', 10));
 
+  const { t } = useTranslation();
+  const lang = t('lang');
+
   useEffect(() => {
-    fetchTrends(page)
+    fetchTrends(page, lang)
       .then(data => {
         setTrends(data.results);
         setTotalPages(data.total_pages);
       })
       .catch(error => console.log(error));
-  }, [page]);
+  }, [page, lang]);
 
   return (
     <PageWrap>
-      <PageTitle>Популярні сьогодні</PageTitle>
+      <PageTitle>{t('title.trending')}</PageTitle>
 
       <List>
         {trends.map(trend => (

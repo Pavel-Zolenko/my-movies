@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { t } from 'i18next';
 import { fetchReviewsById } from 'services/api';
 import { List } from './Reviews.styled';
 
@@ -7,11 +8,13 @@ export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const params = useParams();
 
+  const lang = t('lang');
+
   useEffect(() => {
-    fetchReviewsById(params.id).then(data => {
+    fetchReviewsById(params.id, lang).then(data => {
       setReviews(data.results);
     });
-  }, [params.id]);
+  }, [params.id, lang]);
 
   return (
     <>

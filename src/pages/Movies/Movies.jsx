@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { InputAdornment, ThemeProvider, IconButton } from '@mui/material';
+import { t } from 'i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsSearch } from 'react-icons/bs';
@@ -15,7 +16,6 @@ import {
   Item,
   StyledLink,
   CustomTextField,
-  CustomButton,
   SearchTheme,
 } from './Movies.styled';
 import Loader from 'components/Loader/Loader';
@@ -27,6 +27,7 @@ export default function Movies() {
   const [showLoader, setShowLoader] = useState(false);
 
   const location = useLocation();
+  const lang = t('lang');
 
   const query = searchQuery.get('search');
 
@@ -35,13 +36,13 @@ export default function Movies() {
       return;
     }
     setShowLoader(true);
-    fetchMovies(query)
+    fetchMovies(query, lang)
       .then(data => {
         setMoviesFound([...data.results]);
       })
       .catch(error => console.log(error))
       .finally(setShowLoader(false));
-  }, [query]);
+  }, [query, lang]);
 
   const onSearchInput = event => {
     setInput(event.target.value);
@@ -56,7 +57,7 @@ export default function Movies() {
   const handleSubmit = event => {
     event.preventDefault();
     if (!input.trim()) {
-      return toast.error('emptyQuery');
+      return toast.error('empty query');
     }
     if (input.trim() !== query) {
       setMoviesFound([]);
@@ -86,15 +87,14 @@ export default function Movies() {
                       />
                     </div>
                   )}
-                  <CustomButton variant="contained" type="submit">
-                    <IconButton
-                      type="button"
-                      sx={{ p: '10px 20px' }}
-                      aria-label="search"
-                    >
-                      <BsSearch color="white" />
-                    </IconButton>
-                  </CustomButton>
+
+                  <IconButton
+                    type="submit"
+                    sx={{ p: '10px 20px' }}
+                    aria-label="search"
+                  >
+                    <BsSearch color="white" />
+                  </IconButton>
                 </InputAdornment>
               ),
             }}

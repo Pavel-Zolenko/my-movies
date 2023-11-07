@@ -1,6 +1,8 @@
 import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import { fetchMovieById } from 'services/api';
 import { ImStarHalf } from 'react-icons/im';
 import imageplaceholder from 'images/noposter.jpg';
@@ -24,21 +26,23 @@ import Loader from 'components/Loader/Loader';
 export default function MovieDetails() {
   const [movieItem, setMovieItem] = useState(null);
   const params = useParams();
+  const { t } = useTranslation();
+  const lang = t('lang');
 
   const location = useLocation();
   const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
-    fetchMovieById(params.id)
+    fetchMovieById(params.id, lang)
       .then(data => {
         setMovieItem(data);
       })
       .catch(error => console.log(error));
-  }, [params.id]);
+  }, [params.id, lang]);
 
   return (
     <PageContainer>
-      <BackLink to={backLinkHref}>Back to movies</BackLink>
+      <BackLink to={backLinkHref}>{t('buttons.back')}</BackLink>
       {movieItem && (
         <DetailsWrapp>
           <BackDrop backdrop={movieItem?.backdrop_path}>
@@ -76,10 +80,13 @@ export default function MovieDetails() {
 
                 <ButtonContainer>
                   <StyledLink to="cast" state={{ from: backLinkHref }}>
-                    Cast
+                    {t('buttons.cast')}
                   </StyledLink>
-                  <StyledLink to="Reviews" state={{ from: backLinkHref }}>
-                    Reviews
+                  <StyledLink to="reviews" state={{ from: backLinkHref }}>
+                    {t('buttons.reviews')}
+                  </StyledLink>
+                  <StyledLink to="trailer" state={{ from: backLinkHref }}>
+                    {t('buttons.trailer')}
                   </StyledLink>
                 </ButtonContainer>
               </DetailsBox>

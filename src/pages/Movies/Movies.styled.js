@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
-import { TextField, IconButton, createTheme } from '@mui/material';
+import { TextField, createTheme } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
 import { darkTheme } from '../../services/theme';
 import bcgMovies from 'images/bcg-movies.jpg';
@@ -27,10 +27,10 @@ export const BcgMovies = styled.div`
 
 export const PageWrap = styled(Container)`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 14px;
-  height: 100%;
+  height: 100vh;
   background-color: ${colors.bcgMain};
 `;
 
@@ -74,10 +74,6 @@ export const CustomTextField = styled(TextField)({
   '& .MuiInputLabel-root.Mui-focused': {
     color: '#121212',
   },
-});
-
-export const CustomButton = styled(IconButton)({
-  padding: 0,
 });
 
 export const SearchTheme = createTheme({
