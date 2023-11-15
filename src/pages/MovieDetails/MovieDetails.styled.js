@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Container } from 'components/Container/Container';
 import { darkTheme } from 'services/theme';
 
-const { colors, shadows } = darkTheme;
+const { shadows } = darkTheme;
 
 export const PageContainer = styled(Container)`
   min-height: 100vh;
