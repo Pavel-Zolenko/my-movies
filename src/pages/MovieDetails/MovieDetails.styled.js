@@ -5,7 +5,10 @@ import { darkTheme } from 'services/theme';
 
 const { colors, shadows } = darkTheme;
 
-export const PageContainer = styled(Container)``;
+export const PageContainer = styled(Container)`
+  min-height: 100vh;
+  background-color: ${p => p.theme.colors.bcgMain};
+`;
 
 export const BackDrop = styled.div`
   display: flex;
@@ -20,7 +23,7 @@ export const BackDrop = styled.div`
   background-image: linear-gradient(
       to bottom,
       rgba(59, 67, 81, 0.8),
-      ${colors.bcgMain} 80%
+      ${p => p.theme.colors.bcgMain} 80%
     ),
     url(${p => `https://image.tmdb.org/t/p/w1280${p.backdrop}`});
 
@@ -58,12 +61,12 @@ export const DetailsBox = styled.div`
 
 export const DetailsText = styled.p`
   text-align: center;
-  color: ${colors.textTitle};
+  color: ${p => p.theme.colors.textTitle};
 `;
 export const DetailsTitle = styled.h1`
   text-align: center;
   font-size: 28px;
-  color: ${colors.textTitle};
+  color: #fff;
   width: 100%;
 `;
 

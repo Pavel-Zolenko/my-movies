@@ -1,14 +1,9 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
-import { darkTheme } from '../../services/theme';
-
-const { colors } = darkTheme;
 
 export const Layout = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
-
-  ${'' /* min-height: 100vh; */}
 `;
 
 export const Header = styled.header`
@@ -18,38 +13,51 @@ export const Header = styled.header`
   gap: 12px;
   padding: 10px;
   border-bottom: 1px solid grey;
-  background-color: ${colors.bcgHeader};
+  background-color: ${p => p.theme.colors.bcgHeader};
 `;
 
 export const Link = styled(NavLink)`
   padding: 8px;
   border-radius: 4px;
   text-decoration: none;
-  color: white;
+  color: ${p => p.theme.colors.textTitle};
   font-weight: 500;
 
   &.active {
-    color: #df4d4d;
+    color: ${p => p.theme.colors.accent};
   }
   :hover {
-    color: #df4d4d;
+    color: ${p => p.theme.colors.accent};
     border-bottom: 2px solid #df4d4d;
   }
 `;
-export const LangBtnWrap = styled.div``;
+export const BtnWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const LangBtn = styled.button`
   border: none;
   background-color: transparent;
   font-size: 14px;
   font-weight: 700;
-  color: ${colors.textTitle};
+  color: ${p => p.theme.colors.textTitle};
   cursor: ${props => (props.disabled ? 'default' : 'pointer')};
 
   :disabled {
-    color: ${colors.red};
+    color: ${p => p.theme.colors.accent};
   }
   :hover:not(:disabled) {
-    color: ${colors.red};
+    color: ${p => p.theme.colors.accent};
+  }
+`;
+
+export const ThemeBtn = styled.div`
+  padding: 1px 6px;
+  cursor: pointer;
+  color: ${p => p.theme.colors.textTitle};
+  :hover {
+    color: ${p => p.theme.colors.accent};
   }
 `;

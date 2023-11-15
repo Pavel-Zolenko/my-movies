@@ -1,30 +1,33 @@
-import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
+import { Suspense } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { fetchMovieById } from 'services/api';
 import { ImStarHalf } from 'react-icons/im';
+
 import imageplaceholder from 'images/noposter.jpg';
+import { fetchMovieById } from 'services/api';
 import { formatRuntimeEn } from 'services/formatRuntime';
+import PageError from 'pages/PageError/PageError';
+import Loader from 'components/Loader/Loader';
 import {
   PageContainer,
-  DetailsWrapp,
-  DetailsBox,
   ButtonContainer,
-  DetailsText,
+  DetailsWrapp,
   DetailsTitle,
+  DetailsText,
+  DetailsBox,
   DetailsImg,
-  WrapText,
   StyledLink,
+  WrapText,
   BackDrop,
   Wrap,
 } from './MovieDetails.styled';
 import { BackLink } from 'components/BackLink/BackLink';
-import Loader from 'components/Loader/Loader';
 
 export default function MovieDetails() {
   const [movieItem, setMovieItem] = useState(null);
+  const [error, setError] = useState(false);
+
   const params = useParams();
   const { t } = useTranslation();
   const lang = t('lang');
@@ -36,13 +39,19 @@ export default function MovieDetails() {
     fetchMovieById(params.id, lang)
       .then(data => {
         setMovieItem(data);
+        document.title = `My Movies | ${data.title}`;
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        setError(true);
+      });
   }, [params.id, lang]);
 
   return (
     <PageContainer>
       <BackLink to={backLinkHref}>{t('buttons.back')}</BackLink>
+
+      {error && <PageError />}
+
       {movieItem && (
         <DetailsWrapp>
           <BackDrop backdrop={movieItem?.backdrop_path}>
@@ -79,6 +88,12 @@ export default function MovieDetails() {
                 </DetailsText>
 
                 <ButtonContainer>
+                  <StyledLink
+                    to="overview"
+                    state={({ from: backLinkHref }, movieItem.overview)}
+                  >
+                    {t('buttons.overview')}
+                  </StyledLink>
                   <StyledLink to="cast" state={{ from: backLinkHref }}>
                     {t('buttons.cast')}
                   </StyledLink>

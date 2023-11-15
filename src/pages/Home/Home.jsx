@@ -1,37 +1,31 @@
 import { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  Container,
-  Pagination,
-  PaginationItem,
-  Stack,
-  ThemeProvider,
-} from '@mui/material';
+
 import { fetchTrends } from 'services/api';
 import { MovieCard } from 'components/MovieCard/MovieCard';
-import {
-  StyledLink,
-  PageWrap,
-  PageTitle,
-  List,
-  Item,
-  PaginationTheme,
-} from './Home.styled';
+import { StyledLink, PageWrap, PageTitle, List, Item } from './Home.styled';
+import { PaginationMaterail } from 'components/PaginationMaterail/PaginationMaterail';
 
 export default function Home() {
   const [trends, setTrends] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = searchParams.get('page') ?? 1;
 
   const location = useLocation();
-
-  const query = new URLSearchParams(location.search);
-  const [page, setPage] = useState(parseInt(query.get('page') || '1', 10));
 
   const { t } = useTranslation();
   const lang = t('lang');
 
+  const changePage = (_, num) => {
+    setSearchParams({ page: num });
+  };
+
   useEffect(() => {
+    document.title = 'My Movies';
+
     fetchTrends(page, lang)
       .then(data => {
         setTrends(data.results);
@@ -43,7 +37,6 @@ export default function Home() {
   return (
     <PageWrap>
       <PageTitle>{t('title.trending')}</PageTitle>
-
       <List>
         {trends.map(trend => (
           <Item key={trend.id}>
@@ -53,32 +46,13 @@ export default function Home() {
           </Item>
         ))}
       </List>
-
-      <Container maxWidth="md">
-        <Stack spacing={2} alignItems="center">
-          {!!page && (
-            <ThemeProvider theme={PaginationTheme}>
-              <Pagination
-                color="primary"
-                shape="rounded"
-                size="large"
-                count={totalPages}
-                page={page}
-                onChange={(_, num) => setPage(num)}
-                showFirstButton
-                showLastButton
-                renderItem={item => (
-                  <PaginationItem
-                    component={Link}
-                    to={`/?page=${item.page}`}
-                    {...item}
-                  />
-                )}
-              />
-            </ThemeProvider>
-          )}
-        </Stack>
-      </Container>
+      {
+        <PaginationMaterail
+          page={page}
+          totalPages={totalPages}
+          changePage={changePage}
+        />
+      }
     </PageWrap>
   );
 }

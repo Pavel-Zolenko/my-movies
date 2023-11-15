@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
-import { createTheme } from '@mui/material';
 import { Container } from '../../components/Container/Container.jsx';
-import { darkTheme } from '../../services/theme';
-
-const { colors } = darkTheme;
 
 export const StyledLink = styled(NavLink)`
   text-decoration: none;
@@ -15,12 +11,12 @@ export const PageWrap = styled(Container)`
   flex-wrap: wrap;
   justify-content: center;
   gap: 14px;
-  background-color: ${colors.bcgMain};
+  background-color: ${p => p.theme.colors.bcgMain};
 `;
 
 export const PageTitle = styled.h2`
   text-align: center;
-  color: ${colors.textPrimary};
+  color: ${p => p.theme.colors.textTitle};
 `;
 
 export const List = styled.ul`
@@ -45,11 +41,3 @@ export const Item = styled.li`
     transform: scale(1.05);
   }
 `;
-
-export const PaginationTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#df4d4d',
-    },
-  },
-});

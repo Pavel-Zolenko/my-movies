@@ -2,14 +2,9 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Layout,
-  Header,
-  Link,
-  LangBtn,
-  LangBtnWrap,
-} from './SharedLayout.styled';
+import { Layout, Header, Link, LangBtn, BtnWrap } from './SharedLayout.styled';
 import Loader from 'components/Loader/Loader';
+import { Button } from 'components/Button/Button';
 
 export const SharedLayout = ({ turnUaLang, turnEnLang }) => {
   const { t } = useTranslation();
@@ -22,7 +17,8 @@ export const SharedLayout = ({ turnUaLang, turnEnLang }) => {
           <Link to="/">{t('nav.home')}</Link>
           <Link to="/movies">{t('nav.movies')}</Link>
         </nav>
-        <LangBtnWrap>
+
+        <BtnWrap>
           <LangBtn
             type="button"
             onClick={turnEnLang}
@@ -37,8 +33,11 @@ export const SharedLayout = ({ turnUaLang, turnEnLang }) => {
           >
             UA
           </LangBtn>
-        </LangBtnWrap>
+
+          <Button />
+        </BtnWrap>
       </Header>
+
       <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
