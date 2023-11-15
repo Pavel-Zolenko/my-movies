@@ -10,9 +10,11 @@ import { PaginationMaterail } from 'components/PaginationMaterail/PaginationMate
 export default function Home() {
   const [trends, setTrends] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = searchParams.get('page') ?? 1;
+  const query = Number(searchParams.get('page') ?? 1);
+  const [page, setPage] = useState(query);
 
   const location = useLocation();
 
@@ -20,6 +22,7 @@ export default function Home() {
   const lang = t('lang');
 
   const changePage = (_, num) => {
+    setPage(num);
     setSearchParams({ page: num });
   };
 
@@ -32,7 +35,7 @@ export default function Home() {
         setTotalPages(data.total_pages);
       })
       .catch(error => console.log(error));
-  }, [page, lang]);
+  }, [page, lang, setSearchParams]);
 
   return (
     <PageWrap>
