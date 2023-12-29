@@ -21,8 +21,10 @@ import {
   WrapText,
   BackDrop,
   Wrap,
+  WrapImg,
 } from './MovieDetails.styled';
 import { BackLink } from 'components/BackLink/BackLink';
+import { CircularRating } from 'components/CircularRating/CircularRating';
 
 export default function MovieDetails() {
   const [movieItem, setMovieItem] = useState(null);
@@ -57,15 +59,20 @@ export default function MovieDetails() {
           <BackDrop backdrop={movieItem?.backdrop_path}>
             <DetailsTitle>{movieItem.title || movieItem.name}</DetailsTitle>
             <Wrap>
-              <DetailsImg
-                width="200"
-                src={
-                  movieItem.poster_path
-                    ? `https://image.tmdb.org/t/p/w200/${movieItem.poster_path}`
-                    : imageplaceholder
-                }
-                alt={`${movieItem.title || movieItem.name}`}
-              />
+              <WrapImg>
+                <DetailsImg
+                  width="200"
+                  src={
+                    movieItem.poster_path
+                      ? `https://image.tmdb.org/t/p/w200/${movieItem.poster_path}`
+                      : imageplaceholder
+                  }
+                  alt={`${movieItem.title || movieItem.name}`}
+                />
+                {movieItem.vote_average > 0 && (
+                  <CircularRating voteAverage={movieItem.vote_average} />
+                )}
+              </WrapImg>
               <DetailsBox>
                 <DetailsText>
                   {(movieItem.release_date ?? movieItem.first_air_date).slice(

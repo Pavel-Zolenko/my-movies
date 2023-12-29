@@ -89,6 +89,15 @@ export const DetailsImg = styled.img`
     text-align: left;
   }
 `;
+
+export const WrapImg = styled.div`
+  position: relative;
+  transition: transform 0.3s;
+  @media (max-width: 479.8px) {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+`;
 export const WrapText = styled.span`
   display: flex;
   justify-content: center;
